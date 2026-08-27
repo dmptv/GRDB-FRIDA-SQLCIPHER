@@ -1,0 +1,14 @@
+# Tuist-generated (regenerate with `tuist generate`)
+*.xcodeproj
+*.xcworkspace
+Derived/
+
+# SPM build artifacts
+.build/
+.swiftpm/
+Tuist/.build/
+Tuist/.swiftpm/
+Vendor/GRDB.swift/.build/
+Vendor/GRDB.swift/.swiftpm/
+
+.DS_Store
