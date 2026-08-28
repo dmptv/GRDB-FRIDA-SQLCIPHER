@@ -1,10 +1,14 @@
 import SwiftUI
 import GRDB
+import FakeSecureCardDisplay
 
 struct ContentView: View {
     @State private var plaintextDump = ""
     @State private var encryptedDump = ""
     @State private var errorMessage: String?
+
+    private let cardDisplay = FakeSecureCardDisplayService()
+    @State private var cardImage: UIImage?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -18,6 +22,33 @@ struct ContentView: View {
             HStack(alignment: .top, spacing: 12) {
                 DumpColumn(title: "Plaintext SQLite", subtitle: "readable on disk", text: plaintextDump)
                 DumpColumn(title: "SQLCipher DB", subtitle: "random-looking bytes", text: encryptedDump)
+            }
+
+            Divider()
+
+            Text("Fake Secure Card Display")
+                .font(.title2.bold())
+            Text("PAN never exists as a String outside this render call")
+                .font(.caption).foregroundStyle(.secondary)
+
+            HStack(spacing: 12) {
+                Button("Render PAN") {
+                    Task { cardImage = await cardDisplay.getCardDataImage() }
+                }
+                Button("Wipe") {
+                    Task {
+                        await cardDisplay.wipe()
+                        cardImage = await cardDisplay.getCardDataImage()
+                    }
+                }
+            }
+            .buttonStyle(.borderedProminent)
+
+            if let cardImage {
+                Image(uiImage: cardImage)
+                    .resizable()
+                    .frame(width: 300, height: 60)
+                    .cornerRadius(6)
             }
 
             Spacer()

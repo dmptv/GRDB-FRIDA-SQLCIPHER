@@ -13,7 +13,8 @@ let project = Project(
             sources: ["SecureNotesRASP/Sources/**"],
             resources: ["SecureNotesRASP/Resources/**"],
             dependencies: [
-                .external(name: "GRDB")
+                .external(name: "GRDB"),
+                .external(name: "FakeSecureCardDisplay"),
             ]
         )
     ]
