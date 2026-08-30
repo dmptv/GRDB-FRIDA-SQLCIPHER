@@ -47,6 +47,19 @@ existing rows. Chosen over Core Data because it's a much thinner layer over
 real SQL (nothing to fight when the requirement is "encrypt the whole file with
 SQLCipher") and it's SPM-native, unlike Core Data's `.xcdatamodeld` tooling.
 
+**IOSSecuritySuite** ([`securing/IOSSecuritySuite`](https://github.com/securing/IOSSecuritySuite))
+— runtime checks for jailbreak, an attached debugger, and reverse-engineering
+tooling (Frida-style injection). It's the runtime counterpart to SQLCipher:
+disk encryption protects the file at rest, but if the process itself is
+already compromised (debugger attached, Frida hooking live), an attacker can
+intercept the passphrase the moment GRDB uses it — encryption on disk stops
+mattering. `SecurityGate` runs all three checks once at the app's composition
+root ([`SecureNotesRASPApp.swift`](SecureNotesRASP/Sources/SecureNotesRASPApp.swift));
+on a positive hit, the app renders `BlockedView` and never opens the
+`SecureNote` store at all. Vendored for the same reason as GRDB — the
+upstream `Package.swift` still targets iOS 12, below what current Xcode
+accepts for the simulator.
+
 **Tuist** ([`tuist/tuist`](https://github.com/tuist/tuist)) — generates the
 `.xcodeproj`/`.xcworkspace` from `Project.swift` and `Tuist/Package.swift`
 instead of them being hand-maintained or clicked together in Xcode's GUI.
