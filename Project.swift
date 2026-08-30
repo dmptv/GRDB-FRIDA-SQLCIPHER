@@ -15,6 +15,7 @@ let project = Project(
             dependencies: [
                 .external(name: "GRDB"),
                 .external(name: "FakeSecureCardDisplay"),
+                .external(name: "IOSSecuritySuite"),
             ]
         )
     ]

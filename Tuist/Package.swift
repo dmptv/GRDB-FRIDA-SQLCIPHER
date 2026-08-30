@@ -15,5 +15,6 @@ let package = Package(
         .package(url: "https://github.com/sqlcipher/SQLCipher.swift.git", from: "4.11.0"),
         .package(path: "../Vendor/GRDB.swift"),
         .package(path: "../LocalPackages/FakeSecureCardDisplay"),
+        .package(path: "../Vendor/IOSSecuritySuite"),
     ]
 )
