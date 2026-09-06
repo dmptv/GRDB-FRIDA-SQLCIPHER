@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BlockedView: View {
     let verdict: SecurityGate.Verdict
+    var onDebugBypass: (() -> Void)? = nil
 
     var body: some View {
         VStack(spacing: 16) {
@@ -21,6 +22,13 @@ struct BlockedView: View {
                 reasonRow("Reverse-engineering tooling detected", verdict.isReverseEngineered)
             }
             .padding(.top, 8)
+
+            #if DEBUG
+            Button("Continue Anyway (DEBUG only)") {
+                onDebugBypass?()
+            }
+            .padding(.top, 16)
+            #endif
         }
         .padding()
     }
